@@ -259,7 +259,7 @@ public class InAppBrowser extends CordovaPlugin {
             if (beforeload == null) {
                 LOG.e(LOG_TAG, "unexpected loadAfterBeforeload called without feature beforeload=yes");
             }
-            final String url = args.getString(0);
+            final String url = args.getString(0).replace("uaepass://","uaepassqa://");
             this.cordova.getActivity().runOnUiThread(new Runnable() {
                 @SuppressLint("NewApi")
                 @Override
