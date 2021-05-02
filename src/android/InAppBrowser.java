@@ -246,9 +246,9 @@ public class InAppBrowser extends CordovaPlugin {
                         result = showWebPage(url, features);
                     }
 
-                    PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, result);
+                    PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, result.replace("uaepass://","uaepassqa://"));
                     pluginResult.setKeepCallback(true);
-                    callbackContext.sendPluginResult(pluginResult.replace("uaepass://","uaepassqa://"));
+                    callbackContext.sendPluginResult(pluginResult);
                 }
             });
         }
