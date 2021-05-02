@@ -995,7 +995,6 @@ public class InAppBrowser extends CordovaPlugin {
 
                 // Enable Thirdparty Cookies
                 CookieManager.getInstance().setAcceptThirdPartyCookies(inAppWebView,true);
-                   url =  url.replace("uaepass://","uaepassqa://");
                 inAppWebView.loadUrl(url);
                 inAppWebView.setId(Integer.valueOf(6));
                 inAppWebView.getSettings().setLoadWithOverviewMode(true);
