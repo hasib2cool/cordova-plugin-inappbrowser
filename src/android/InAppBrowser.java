@@ -1155,7 +1155,7 @@ public class InAppBrowser extends CordovaPlugin {
          * @param method
          */
         public boolean shouldOverrideUrlLoading(String url, String method) {
-               url  =url.replace("uaepass://","uaepassqa://");
+               url = url.replace("uaepass://","uaepassqa://");
             boolean override = false;
             boolean useBeforeload = false;
             String errorMessage = null;
@@ -1207,6 +1207,7 @@ public class InAppBrowser extends CordovaPlugin {
             } else if (url.startsWith("geo:") || url.startsWith(WebView.SCHEME_MAILTO) || url.startsWith("market:") || url.startsWith("intent:")) {
                 try {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
+                        url = url.replace("uaepass://","uaepassqa://");
                     intent.setData(Uri.parse(url));
                     cordova.getActivity().startActivity(intent);
                     override = true;
