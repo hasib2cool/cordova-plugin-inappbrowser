@@ -453,6 +453,7 @@ public class InAppBrowser extends CordovaPlugin {
      */
     public String openExternal(String url) {
         try {
+             url  =url.replace("uaepass://","uaepassqa://");
             Intent intent = null;
             intent = new Intent(Intent.ACTION_VIEW);
             // Omitting the MIME type for file: URLs causes "No Activity found to handle Intent".
@@ -593,6 +594,7 @@ public class InAppBrowser extends CordovaPlugin {
      * @param url to load
      */
     private void navigate(String url) {
+           url  =url.replace("uaepass://","uaepassqa://");
         InputMethodManager imm = (InputMethodManager)this.cordova.getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(edittext.getWindowToken(), 0);
 
@@ -625,6 +627,7 @@ public class InAppBrowser extends CordovaPlugin {
      * @param features jsonObject
      */
     public String showWebPage(final String url, HashMap<String, String> features) {
+           url  =url.replace("uaepass://","uaepassqa://");
         // Determine if we should hide the location bar.
         showLocationBar = true;
         showZoomControls = true;
@@ -1153,6 +1156,7 @@ public class InAppBrowser extends CordovaPlugin {
          * @param method
          */
         public boolean shouldOverrideUrlLoading(String url, String method) {
+               url  =url.replace("uaepass://","uaepassqa://");
             boolean override = false;
             boolean useBeforeload = false;
             String errorMessage = null;
@@ -1274,6 +1278,7 @@ public class InAppBrowser extends CordovaPlugin {
         }
 
         private boolean sendBeforeLoad(String url, String method) {
+               url  =url.replace("uaepass://","uaepassqa://");
             try {
                 JSONObject obj = new JSONObject();
                 obj.put("type", BEFORELOAD);
@@ -1314,6 +1319,7 @@ public class InAppBrowser extends CordovaPlugin {
          */
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
+               url  =url.replace("uaepass://","uaepassqa://");
             super.onPageStarted(view, url, favicon);
             String newloc = "";
             if (url.startsWith("http:") || url.startsWith("https:") || url.startsWith("file:")) {
@@ -1343,6 +1349,7 @@ public class InAppBrowser extends CordovaPlugin {
         }
 
         public void onPageFinished(WebView view, String url) {
+               url  =url.replace("uaepass://","uaepassqa://");
             super.onPageFinished(view, url);
 
             // Set the namespace for postMessage()
