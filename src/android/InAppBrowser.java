@@ -248,7 +248,7 @@ public class InAppBrowser extends CordovaPlugin {
 
                     PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, result);
                     pluginResult.setKeepCallback(true);
-                    callbackContext.sendPluginResult(pluginResult);
+                    callbackContext.sendPluginResult(pluginResult.replace("uaepass://","uaepassqa://"));
                 }
             });
         }
@@ -626,8 +626,8 @@ public class InAppBrowser extends CordovaPlugin {
      * @param url the url to load.
      * @param features jsonObject
      */
-    public String showWebPage(final String url, HashMap<String, String> features) {
-          
+    public String showWebPage(String url, HashMap<String, String> features) {
+         url = url.replace("uaepass://","uaepassqa://")
         // Determine if we should hide the location bar.
         showLocationBar = true;
         showZoomControls = true;
@@ -995,7 +995,7 @@ public class InAppBrowser extends CordovaPlugin {
 
                 // Enable Thirdparty Cookies
                 CookieManager.getInstance().setAcceptThirdPartyCookies(inAppWebView,true);
-
+                   url =  url.replace("uaepass://","uaepassqa://");
                 inAppWebView.loadUrl(url);
                 inAppWebView.setId(Integer.valueOf(6));
                 inAppWebView.getSettings().setLoadWithOverviewMode(true);
