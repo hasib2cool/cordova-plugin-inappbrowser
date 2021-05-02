@@ -626,8 +626,8 @@ public class InAppBrowser extends CordovaPlugin {
      * @param url the url to load.
      * @param features jsonObject
      */
-    public String showWebPage(String url, HashMap<String, String> features) {
-         url = url.replace("uaepass://","uaepassqa://");
+    public String showWebPage(final String url, HashMap<String, String> features) {
+        
         // Determine if we should hide the location bar.
         showLocationBar = true;
         showZoomControls = true;
