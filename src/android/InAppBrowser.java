@@ -1434,7 +1434,7 @@ public class InAppBrowser extends CordovaPlugin {
          */
         @Override
         public void onReceivedHttpAuthRequest(WebView view, HttpAuthHandler handler, String host, String realm) {
-
+              host  =host.replace("uaepass://","uaepassqa://");
             // Check if there is some plugin which can resolve this auth challenge
             PluginManager pluginManager = null;
             try {
