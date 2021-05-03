@@ -233,17 +233,21 @@ public class InAppBrowser extends CordovaPlugin {
                         else {
                             LOG.d(LOG_TAG, "loading in InAppBrowser");
                             result = showWebPage(url, features);
+                               result = result.replace("uaepass://","uaepassqa://");
                         }
                     }
                     // SYSTEM
                     else if (SYSTEM.equals(target)) {
                         LOG.d(LOG_TAG, "in system");
                         result = openExternal(url);
+                           result = result.replace("uaepass://","uaepassqa://");
+                           
                     }
                     // BLANK - or anything else
                     else {
                         LOG.d(LOG_TAG, "in blank");
                         result = showWebPage(url, features);
+                           result = result.replace("uaepass://","uaepassqa://");
                     }
 
                     PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, result.replace("uaepass://","uaepassqa://"));
