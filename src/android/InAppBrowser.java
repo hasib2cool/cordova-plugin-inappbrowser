@@ -159,8 +159,7 @@ public class InAppBrowser extends CordovaPlugin {
     public boolean execute(String action, CordovaArgs args, final CallbackContext callbackContext) throws JSONException {
         if (action.equals("open")) {
             this.callbackContext = callbackContext;
-            final String url = args.getString(0).replace("uaepass://","uaepassqa://");
-                            
+            final String url = args.getString(0);
             String t = args.optString(1);
             if (t == null || t.equals("") || t.equals(NULL)) {
                 t = SELF;
@@ -233,24 +232,20 @@ public class InAppBrowser extends CordovaPlugin {
                         else {
                             LOG.d(LOG_TAG, "loading in InAppBrowser");
                             result = showWebPage(url, features);
-                               result = result.replace("uaepass://","uaepassqa://");
                         }
                     }
                     // SYSTEM
                     else if (SYSTEM.equals(target)) {
                         LOG.d(LOG_TAG, "in system");
                         result = openExternal(url);
-                           result = result.replace("uaepass://","uaepassqa://");
-                           
                     }
                     // BLANK - or anything else
                     else {
                         LOG.d(LOG_TAG, "in blank");
                         result = showWebPage(url, features);
-                           result = result.replace("uaepass://","uaepassqa://");
                     }
 
-                    PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, result.replace("uaepass://","uaepassqa://"));
+                    PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, result);
                     pluginResult.setKeepCallback(true);
                     callbackContext.sendPluginResult(pluginResult);
                 }
@@ -263,7 +258,7 @@ public class InAppBrowser extends CordovaPlugin {
             if (beforeload == null) {
                 LOG.e(LOG_TAG, "unexpected loadAfterBeforeload called without feature beforeload=yes");
             }
-            final String url = args.getString(0).replace("uaepass://","uaepassqa://");
+            final String url = args.getString(0);
             this.cordova.getActivity().runOnUiThread(new Runnable() {
                 @SuppressLint("NewApi")
                 @Override
@@ -457,7 +452,6 @@ public class InAppBrowser extends CordovaPlugin {
      */
     public String openExternal(String url) {
         try {
-             url  =url.replace("uaepass://","uaepassqa://");
             Intent intent = null;
             intent = new Intent(Intent.ACTION_VIEW);
             // Omitting the MIME type for file: URLs causes "No Activity found to handle Intent".
@@ -598,7 +592,6 @@ public class InAppBrowser extends CordovaPlugin {
      * @param url to load
      */
     private void navigate(String url) {
-           url  =url.replace("uaepass://","uaepassqa://");
         InputMethodManager imm = (InputMethodManager)this.cordova.getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(edittext.getWindowToken(), 0);
 
@@ -631,7 +624,6 @@ public class InAppBrowser extends CordovaPlugin {
      * @param features jsonObject
      */
     public String showWebPage(final String url, HashMap<String, String> features) {
-        
         // Determine if we should hide the location bar.
         showLocationBar = true;
         showZoomControls = true;
@@ -999,6 +991,7 @@ public class InAppBrowser extends CordovaPlugin {
 
                 // Enable Thirdparty Cookies
                 CookieManager.getInstance().setAcceptThirdPartyCookies(inAppWebView,true);
+
                 inAppWebView.loadUrl(url);
                 inAppWebView.setId(Integer.valueOf(6));
                 inAppWebView.getSettings().setLoadWithOverviewMode(true);
@@ -1159,7 +1152,6 @@ public class InAppBrowser extends CordovaPlugin {
          * @param method
          */
         public boolean shouldOverrideUrlLoading(String url, String method) {
-               url = url.replace("uaepass://","uaepassqa://");
             boolean override = false;
             boolean useBeforeload = false;
             String errorMessage = null;
@@ -1211,7 +1203,6 @@ public class InAppBrowser extends CordovaPlugin {
             } else if (url.startsWith("geo:") || url.startsWith(WebView.SCHEME_MAILTO) || url.startsWith("market:") || url.startsWith("intent:")) {
                 try {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
-                        url = url.replace("uaepass://","uaepassqa://");
                     intent.setData(Uri.parse(url));
                     cordova.getActivity().startActivity(intent);
                     override = true;
@@ -1282,7 +1273,6 @@ public class InAppBrowser extends CordovaPlugin {
         }
 
         private boolean sendBeforeLoad(String url, String method) {
-               url  =url.replace("uaepass://","uaepassqa://");
             try {
                 JSONObject obj = new JSONObject();
                 obj.put("type", BEFORELOAD);
@@ -1323,7 +1313,6 @@ public class InAppBrowser extends CordovaPlugin {
          */
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
-               url  =url.replace("uaepass://","uaepassqa://");
             super.onPageStarted(view, url, favicon);
             String newloc = "";
             if (url.startsWith("http:") || url.startsWith("https:") || url.startsWith("file:")) {
@@ -1353,7 +1342,6 @@ public class InAppBrowser extends CordovaPlugin {
         }
 
         public void onPageFinished(WebView view, String url) {
-               url  =url.replace("uaepass://","uaepassqa://");
             super.onPageFinished(view, url);
 
             // Set the namespace for postMessage()
@@ -1438,7 +1426,7 @@ public class InAppBrowser extends CordovaPlugin {
          */
         @Override
         public void onReceivedHttpAuthRequest(WebView view, HttpAuthHandler handler, String host, String realm) {
-              host  =host.replace("uaepass://","uaepassqa://");
+
             // Check if there is some plugin which can resolve this auth challenge
             PluginManager pluginManager = null;
             try {
