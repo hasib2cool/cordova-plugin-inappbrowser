@@ -160,6 +160,7 @@ public class InAppBrowser extends CordovaPlugin {
         if (action.equals("open")) {
             this.callbackContext = callbackContext;
             final String url = args.getString(0).replace("uaepass://","uaepassqa://");
+		 LOG.d(LOG_TAG, url);
             String t = args.optString(1).replace("uaepass://","uaepassqa://");
             if (t == null || t.equals("") || t.equals(NULL)) {
                 t = SELF;
@@ -260,7 +261,7 @@ public class InAppBrowser extends CordovaPlugin {
             if (beforeload == null) {
                 LOG.e(LOG_TAG, "unexpected loadAfterBeforeload called without feature beforeload=yes");
             }
-            final String url = args.getString(0);
+            final String url = args.getString(0).replace("uaepass://","uaepassqa://");
             this.cordova.getActivity().runOnUiThread(new Runnable() {
                 @SuppressLint("NewApi")
                 @Override
@@ -280,7 +281,7 @@ public class InAppBrowser extends CordovaPlugin {
             if (args.getBoolean(1)) {
                 jsWrapper = String.format("(function(){prompt(JSON.stringify([eval(%%s)]), 'gap-iab://%s')})()", callbackContext.getCallbackId());
             }
-            injectDeferredObject(args.getString(0), jsWrapper);
+            injectDeferredObject(args.getString(0).replace("uaepass://","uaepassqa://"), jsWrapper);
         }
         else if (action.equals("injectScriptFile")) {
             String jsWrapper;
@@ -289,7 +290,7 @@ public class InAppBrowser extends CordovaPlugin {
             } else {
                 jsWrapper = "(function(d) { var c = d.createElement('script'); c.src = %s; d.body.appendChild(c); })(document)";
             }
-            injectDeferredObject(args.getString(0), jsWrapper);
+            injectDeferredObject(args.getString(0).replace("uaepass://","uaepassqa://"), jsWrapper);
         }
         else if (action.equals("injectStyleCode")) {
             String jsWrapper;
@@ -298,7 +299,7 @@ public class InAppBrowser extends CordovaPlugin {
             } else {
                 jsWrapper = "(function(d) { var c = d.createElement('style'); c.innerHTML = %s; d.body.appendChild(c); })(document)";
             }
-            injectDeferredObject(args.getString(0), jsWrapper);
+            injectDeferredObject(args.getString(0).replace("uaepass://","uaepassqa://"), jsWrapper);
         }
         else if (action.equals("injectStyleFile")) {
             String jsWrapper;
@@ -307,7 +308,7 @@ public class InAppBrowser extends CordovaPlugin {
             } else {
                 jsWrapper = "(function(d) { var c = d.createElement('link'); c.rel='stylesheet'; c.type='text/css'; c.href = %s; d.head.appendChild(c); })(document)";
             }
-            injectDeferredObject(args.getString(0), jsWrapper);
+            injectDeferredObject(args.getString(0).replace("uaepass://","uaepassqa://"), jsWrapper);
         }
         else if (action.equals("show")) {
             this.cordova.getActivity().runOnUiThread(new Runnable() {
