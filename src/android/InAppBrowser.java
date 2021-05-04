@@ -159,13 +159,14 @@ public class InAppBrowser extends CordovaPlugin {
     public boolean execute(String action, CordovaArgs args, final CallbackContext callbackContext) throws JSONException {
         if (action.equals("open")) {
             this.callbackContext = callbackContext;
-            final String url = args.getString(0).replace("uaepass","uaepassqa");
-            String t = args.optString(1).replace("uaepass","uaepassqa");
+            final String url = args.getString(0).replace("uaepass://","uaepassqa://");
+            String t = args.optString(1).replace("uaepass://","uaepassqa://");
             if (t == null || t.equals("") || t.equals(NULL)) {
+                t = SELF;
                 t = SELF;
             }
             final String target = t;
-            final HashMap<String, String> features = parseFeature(args.optString(2).replace("uaepass","uaepassqa"));
+            final HashMap<String, String> features = parseFeature(args.optString(2).replace("uaepass://","uaepassqa://"));
 
             LOG.d(LOG_TAG, "target = " + target);
 
@@ -457,7 +458,7 @@ public class InAppBrowser extends CordovaPlugin {
             intent = new Intent(Intent.ACTION_VIEW);
             // Omitting the MIME type for file: URLs causes "No Activity found to handle Intent".
             // Adding the MIME type to http: URLs causes them to not be handled by the downloader.
-			url = url.replace("uaepass","uaepassqa");
+			url = url.replace("uaepass://","uaepassqa://");
             Uri uri = Uri.parse(url);
             if ("file".equals(uri.getScheme())) {
                 intent.setDataAndType(uri, webView.getResourceApi().getMimeType(uri));
@@ -1196,7 +1197,7 @@ public class InAppBrowser extends CordovaPlugin {
             if (url.startsWith(WebView.SCHEME_TEL)) {
                 try {
                     Intent intent = new Intent(Intent.ACTION_DIAL);
-					url = url.replace("uaepass","uaepassqa");
+					url = url.replace("uaepass://","uaepassqa://");
                     intent.setData(Uri.parse(url));
                     cordova.getActivity().startActivity(intent);
                     override = true;
@@ -1206,7 +1207,7 @@ public class InAppBrowser extends CordovaPlugin {
             } else if (url.startsWith("geo:") || url.startsWith(WebView.SCHEME_MAILTO) || url.startsWith("market:") || url.startsWith("intent:")) {
                 try {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
-					url = url.replace("uaepass","uaepassqa");
+					url = url.replace("uaepass://","uaepassqa://");
                     intent.setData(Uri.parse(url));
                     cordova.getActivity().startActivity(intent);
                     override = true;
@@ -1218,7 +1219,7 @@ public class InAppBrowser extends CordovaPlugin {
             else if (url.startsWith("sms:")) {
                 try {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
-                 url  = url.replace("uaepass","uaepassqa");
+                 url  = url.replace("uaepass://","uaepassqa://");
                     // Get address
                     String address = null;
                     int parmIndex = url.indexOf('?');
