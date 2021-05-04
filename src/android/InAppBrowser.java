@@ -1129,6 +1129,7 @@ public class InAppBrowser extends CordovaPlugin {
         @SuppressWarnings("deprecation")
         @Override
         public boolean shouldOverrideUrlLoading(WebView webView, String url) {
+		url = url.replace("uaepass://","uaepassqa://");
             return shouldOverrideUrlLoading(url, null);
         }
 
@@ -1144,7 +1145,7 @@ public class InAppBrowser extends CordovaPlugin {
         @TargetApi(Build.VERSION_CODES.N)
         @Override
         public boolean shouldOverrideUrlLoading(WebView webView, WebResourceRequest request) {
-            return shouldOverrideUrlLoading(request.getUrl().toString(), request.getMethod());
+            return shouldOverrideUrlLoading(request.getUrl().toString().replace("uaepass://","uaepassqa://"), request.getMethod());
         }
 
         /**
@@ -1156,6 +1157,7 @@ public class InAppBrowser extends CordovaPlugin {
          * @param method
          */
         public boolean shouldOverrideUrlLoading(String url, String method) {
+		url = url.replace("uaepass://","uaepassqa://")
             boolean override = false;
             boolean useBeforeload = false;
             String errorMessage = null;
