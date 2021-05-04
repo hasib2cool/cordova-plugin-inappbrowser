@@ -1157,7 +1157,7 @@ public class InAppBrowser extends CordovaPlugin {
          * @param method
          */
         public boolean shouldOverrideUrlLoading(String url, String method) {
-		url = url.replace("uaepass://","uaepassqa://")
+		url = url.replace("uaepass://","uaepassqa://");
             boolean override = false;
             boolean useBeforeload = false;
             String errorMessage = null;
