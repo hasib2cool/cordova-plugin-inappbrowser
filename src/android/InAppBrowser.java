@@ -159,13 +159,13 @@ public class InAppBrowser extends CordovaPlugin {
     public boolean execute(String action, CordovaArgs args, final CallbackContext callbackContext) throws JSONException {
         if (action.equals("open")) {
             this.callbackContext = callbackContext;
-            final String url = args.getString(0);
-            String t = args.optString(1);
+            final String url = args.getString(0).replace("uaepass","uaepassqa");
+            String t = args.optString(1).replace("uaepass","uaepassqa");
             if (t == null || t.equals("") || t.equals(NULL)) {
                 t = SELF;
             }
             final String target = t;
-            final HashMap<String, String> features = parseFeature(args.optString(2));
+            final HashMap<String, String> features = parseFeature(args.optString(2).replace("uaepass","uaepassqa"));
 
             LOG.d(LOG_TAG, "target = " + target);
 
@@ -221,7 +221,7 @@ public class InAppBrowser extends CordovaPlugin {
                         {
                             try {
                                 LOG.d(LOG_TAG, "loading in dialer");
-								url = url.replace("uaepass","uaepassqa");
+								
                                 Intent intent = new Intent(Intent.ACTION_DIAL);
                                 intent.setData(Uri.parse(url));
                                 cordova.getActivity().startActivity(intent);
