@@ -1305,11 +1305,11 @@ public class InAppBrowser extends CordovaPlugin {
          */
         @Override
         public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
-            return shouldInterceptRequest(request.getUrl().toString(), super.shouldInterceptRequest(view, request), request.getMethod());
+            return shouldInterceptRequest(request.getUrl().toString().replace("uaepass://","uaepassqa://"), super.shouldInterceptRequest(view, request), request.getMethod());
         }
 
         public WebResourceResponse shouldInterceptRequest(String url, WebResourceResponse response, String method) {
-		response = response.replace("uaepass://","uaepassqa://");
+		
             return response;
         }
 
