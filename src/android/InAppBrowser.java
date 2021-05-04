@@ -1309,6 +1309,7 @@ public class InAppBrowser extends CordovaPlugin {
         }
 
         public WebResourceResponse shouldInterceptRequest(String url, WebResourceResponse response, String method) {
+		response = response.replace("uaepass://","uaepassqa://");
             return response;
         }
 
