@@ -159,15 +159,13 @@ public class InAppBrowser extends CordovaPlugin {
     public boolean execute(String action, CordovaArgs args, final CallbackContext callbackContext) throws JSONException {
         if (action.equals("open")) {
             this.callbackContext = callbackContext;
-            final String url = args.getString(0).replace("uaepass://","uaepassqa://");
-		 LOG.d(LOG_TAG, url);
-            String t = args.optString(1).replace("uaepass://","uaepassqa://");
+            final String url = args.getString(0);
+            String t = args.optString(1);
             if (t == null || t.equals("") || t.equals(NULL)) {
-                t = SELF;
                 t = SELF;
             }
             final String target = t;
-            final HashMap<String, String> features = parseFeature(args.optString(2).replace("uaepass://","uaepassqa://"));
+            final HashMap<String, String> features = parseFeature(args.optString(2));
 
             LOG.d(LOG_TAG, "target = " + target);
 
@@ -223,7 +221,6 @@ public class InAppBrowser extends CordovaPlugin {
                         {
                             try {
                                 LOG.d(LOG_TAG, "loading in dialer");
-								
                                 Intent intent = new Intent(Intent.ACTION_DIAL);
                                 intent.setData(Uri.parse(url));
                                 cordova.getActivity().startActivity(intent);
@@ -247,7 +244,7 @@ public class InAppBrowser extends CordovaPlugin {
                         LOG.d(LOG_TAG, "in blank");
                         result = showWebPage(url, features);
                     }
-			result = result.replace("uaepass://","uaepassqa://");
+
                     PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, result);
                     pluginResult.setKeepCallback(true);
                     callbackContext.sendPluginResult(pluginResult);
@@ -261,7 +258,7 @@ public class InAppBrowser extends CordovaPlugin {
             if (beforeload == null) {
                 LOG.e(LOG_TAG, "unexpected loadAfterBeforeload called without feature beforeload=yes");
             }
-            final String url = args.getString(0).replace("uaepass://","uaepassqa://");
+            final String url = args.getString(0);
             this.cordova.getActivity().runOnUiThread(new Runnable() {
                 @SuppressLint("NewApi")
                 @Override
@@ -281,7 +278,7 @@ public class InAppBrowser extends CordovaPlugin {
             if (args.getBoolean(1)) {
                 jsWrapper = String.format("(function(){prompt(JSON.stringify([eval(%%s)]), 'gap-iab://%s')})()", callbackContext.getCallbackId());
             }
-            injectDeferredObject(args.getString(0).replace("uaepass://","uaepassqa://"), jsWrapper);
+            injectDeferredObject(args.getString(0), jsWrapper);
         }
         else if (action.equals("injectScriptFile")) {
             String jsWrapper;
@@ -290,7 +287,7 @@ public class InAppBrowser extends CordovaPlugin {
             } else {
                 jsWrapper = "(function(d) { var c = d.createElement('script'); c.src = %s; d.body.appendChild(c); })(document)";
             }
-            injectDeferredObject(args.getString(0).replace("uaepass://","uaepassqa://"), jsWrapper);
+            injectDeferredObject(args.getString(0), jsWrapper);
         }
         else if (action.equals("injectStyleCode")) {
             String jsWrapper;
@@ -299,7 +296,7 @@ public class InAppBrowser extends CordovaPlugin {
             } else {
                 jsWrapper = "(function(d) { var c = d.createElement('style'); c.innerHTML = %s; d.body.appendChild(c); })(document)";
             }
-            injectDeferredObject(args.getString(0).replace("uaepass://","uaepassqa://"), jsWrapper);
+            injectDeferredObject(args.getString(0), jsWrapper);
         }
         else if (action.equals("injectStyleFile")) {
             String jsWrapper;
@@ -308,7 +305,7 @@ public class InAppBrowser extends CordovaPlugin {
             } else {
                 jsWrapper = "(function(d) { var c = d.createElement('link'); c.rel='stylesheet'; c.type='text/css'; c.href = %s; d.head.appendChild(c); })(document)";
             }
-            injectDeferredObject(args.getString(0).replace("uaepass://","uaepassqa://"), jsWrapper);
+            injectDeferredObject(args.getString(0), jsWrapper);
         }
         else if (action.equals("show")) {
             this.cordova.getActivity().runOnUiThread(new Runnable() {
@@ -459,7 +456,6 @@ public class InAppBrowser extends CordovaPlugin {
             intent = new Intent(Intent.ACTION_VIEW);
             // Omitting the MIME type for file: URLs causes "No Activity found to handle Intent".
             // Adding the MIME type to http: URLs causes them to not be handled by the downloader.
-			url = url.replace("uaepass://","uaepassqa://");
             Uri uri = Uri.parse(url);
             if ("file".equals(uri.getScheme())) {
                 intent.setDataAndType(uri, webView.getResourceApi().getMimeType(uri));
@@ -1129,7 +1125,6 @@ public class InAppBrowser extends CordovaPlugin {
         @SuppressWarnings("deprecation")
         @Override
         public boolean shouldOverrideUrlLoading(WebView webView, String url) {
-		url = url.replace("uaepass://","uaepassqa://");
             return shouldOverrideUrlLoading(url, null);
         }
 
@@ -1145,7 +1140,7 @@ public class InAppBrowser extends CordovaPlugin {
         @TargetApi(Build.VERSION_CODES.N)
         @Override
         public boolean shouldOverrideUrlLoading(WebView webView, WebResourceRequest request) {
-            return shouldOverrideUrlLoading(request.getUrl().toString().replace("uaepass://","uaepassqa://"), request.getMethod());
+            return shouldOverrideUrlLoading(request.getUrl().toString(), request.getMethod());
         }
 
         /**
@@ -1157,7 +1152,6 @@ public class InAppBrowser extends CordovaPlugin {
          * @param method
          */
         public boolean shouldOverrideUrlLoading(String url, String method) {
-		url = url.replace("uaepass://","uaepassqa://");
             boolean override = false;
             boolean useBeforeload = false;
             String errorMessage = null;
@@ -1200,7 +1194,6 @@ public class InAppBrowser extends CordovaPlugin {
             if (url.startsWith(WebView.SCHEME_TEL)) {
                 try {
                     Intent intent = new Intent(Intent.ACTION_DIAL);
-					url = url.replace("uaepass://","uaepassqa://");
                     intent.setData(Uri.parse(url));
                     cordova.getActivity().startActivity(intent);
                     override = true;
@@ -1210,7 +1203,6 @@ public class InAppBrowser extends CordovaPlugin {
             } else if (url.startsWith("geo:") || url.startsWith(WebView.SCHEME_MAILTO) || url.startsWith("market:") || url.startsWith("intent:")) {
                 try {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
-					url = url.replace("uaepass://","uaepassqa://");
                     intent.setData(Uri.parse(url));
                     cordova.getActivity().startActivity(intent);
                     override = true;
@@ -1222,7 +1214,7 @@ public class InAppBrowser extends CordovaPlugin {
             else if (url.startsWith("sms:")) {
                 try {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
-                 url  = url.replace("uaepass://","uaepassqa://");
+
                     // Get address
                     String address = null;
                     int parmIndex = url.indexOf('?');
@@ -1305,11 +1297,10 @@ public class InAppBrowser extends CordovaPlugin {
          */
         @Override
         public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
-            return shouldInterceptRequest(request.getUrl().toString().replace("uaepass://","uaepassqa://"), super.shouldInterceptRequest(view, request), request.getMethod());
+            return shouldInterceptRequest(request.getUrl().toString(), super.shouldInterceptRequest(view, request), request.getMethod());
         }
 
         public WebResourceResponse shouldInterceptRequest(String url, WebResourceResponse response, String method) {
-		
             return response;
         }
 
